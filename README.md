@@ -234,6 +234,16 @@ This module sends ticket text to the configured AI provider for analysis. For se
 - Review the AI prompt templates in `Templates/` to understand exactly what is sent
 - The module never stores or caches ticket data beyond the PowerShell session
 
+## Feedback & Contributions
+
+This tool was built to solve real admin pain points. If you have ideas for improvement, find a bug, or want to suggest a feature:
+
+- **Open an issue** on this repo — [Issues](../../issues)
+- Feature requests, bug reports, and general feedback are all welcome
+- Pull requests are appreciated if you want to contribute directly
+
+If you find this useful, check out my other tools at [larro1991.github.io](https://larro1991.github.io)
+
 ## License
 
 MIT License. Copyright (c) 2026 Larry Roberts.
