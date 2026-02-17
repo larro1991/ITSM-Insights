@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recurring Issues Analysis - ITSM Insights</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            color: #2dd4bf;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #2dd4bf;
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            color: #2dd4bf;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        h3 {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2dd4bf;
+        }
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .pattern-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .pattern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .pattern-count {
+            background: #f59e0b;
+            color: #0f172a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 0.75rem 0;
+        }
+        .detail-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 0.75rem;
+        }
+        .detail-label {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .detail-value {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+        pre {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-top: 0.75rem;
+        }
+        .timeline-mini {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+        }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+        .timeline-dot.resolved {
+            background: #22c55e;
+        }
+        .timeline-line {
+            height: 2px;
+            flex: 1;
+            min-width: 30px;
+            background: #334155;
+        }
+        .timeline-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .impact-bar {
+            background: #334155;
+            border-radius: 4px;
+            height: 8px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        .impact-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Recurring Issues Analysis</h1>
+    <p class="subtitle">AI-detected patterns across SQL-PROD-01 ticket history (last 18 months)</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Patterns Detected</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Total Occurrences</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">~18 hrs</div>
+            <div class="stat-label">Estimated Time Lost</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">1</div>
+            <div class="stat-label">Data Loss Events</div>
+        </div>
+    </div>
+
+    <!-- Pattern 1: Disk Space -->
+    <div class="pattern-card">
+        <div class="pattern-header">
+            <h2 style="margin: 0;">E: Drive Disk Space Exhaustion</h2>
+            <span class="pattern-count">3 occurrences</span>
+        </div>
+
+        <p style="color: #cbd5e1;">Recurring disk space consumption on the E: drive caused by unmanaged transaction log growth, unrestricted TempDB expansion, and delayed storage provisioning.</p>
+
+        <div class="timeline-mini">
+            <span class="timeline-label">Aug 2024</span>
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <span class="timeline-label">Nov 2024</span>
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <span class="timeline-label">Feb 2025</span>
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <span class="timeline-label">Mar 2025</span>
+            <div class="timeline-dot resolved"></div>
+            <span class="timeline-label">(Resolved)</span>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="detail-label">Related Tickets</div>
+                <div class="detail-value">INC0012301, INC0013457, INC0015234, PRB0001001, CHG0005502</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Impact</div>
+                <div class="detail-value">3 P1/P2 incidents, 1 database outage with data loss (30 min), ~12 hours of engineer time</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">First Seen</div>
+                <div class="detail-value">2024-08-15</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Last Seen</div>
+                <div class="detail-value">2025-02-10</div>
+            </div>
+        </div>
+
+        <p style="color: #94a3b8; margin-top: 0.5rem;"><strong>Impact Severity:</strong></p>
+        <div class="impact-bar"><div class="impact-fill" style="width: 90%;"></div></div>
+
+        <h3>Root Cause Analysis</h3>
+        <pre>Multiple contributing factors:
+1. Transaction logs for ReportingDB and StagingDB were not being backed up regularly, causing unbounded growth.
+2. TempDB had no maximum size configured, allowing runaway queries to consume all available disk space.
+3. Change request CHG0005502 to expand the E: drive was approved in November 2024 but not actioned by the storage team for 3 months, during which the critical February outage occurred.
+4. Monitoring only alerted at 95% full initially (later improved to 70%/80%/90% thresholds).</pre>
+
+        <h3>Suggested Permanent Fix</h3>
+        <pre>1. [DONE] Expand E: drive to 1TB and add F: drive for TempDB isolation.
+2. [DONE] Configure TempDB with 32GB maximum size on separate F: drive.
+3. [DONE] Set up tiered monitoring alerts at 70%, 80%, and 90% thresholds.
+4. [DONE] Implement automated daily transaction log cleanup and 30-minute log backup schedule.
+5. [PROCESS] Implement change execution tracking with escalation SLAs to prevent approved changes from stalling.
+6. [RECOMMENDED] Consider auto-expansion policies with hard caps as a safety net.</pre>
+
+        <p style="color: #22c55e; margin-top: 0.75rem; font-weight: 600;">STATUS: Resolved via PRB0001001 (closed 2025-04-01). All technical fixes implemented. Process improvement for change tracking pending.</p>
+    </div>
+
+    <!-- Pattern 2: Performance Degradation -->
+    <div class="pattern-card">
+        <div class="pattern-header">
+            <h2 style="margin: 0;">Database Performance Degradation - Missing Index Maintenance</h2>
+            <span class="pattern-count">2 occurrences</span>
+        </div>
+
+        <p style="color: #cbd5e1;">Query performance degradation caused by stale statistics and heavily fragmented indexes across production databases. No scheduled index maintenance exists for all databases.</p>
+
+        <div class="timeline-mini">
+            <span class="timeline-label">Sep 2024</span>
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <span class="timeline-label">Dec 2024</span>
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <span class="timeline-label">Now</span>
+            <div class="timeline-dot" style="background: #f59e0b;"></div>
+            <span class="timeline-label">(Partial fix)</span>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="detail-label">Related Tickets</div>
+                <div class="detail-value">INC0012890, INC0014102, PRB0001150</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Impact</div>
+                <div class="detail-value">2 P2 incidents, application timeouts affecting OrderApp and Warehouse, ~6 hours of engineer time</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">First Seen</div>
+                <div class="detail-value">2024-09-20</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Last Seen</div>
+                <div class="detail-value">2024-12-05</div>
+            </div>
+        </div>
+
+        <p style="color: #94a3b8; margin-top: 0.5rem;"><strong>Impact Severity:</strong></p>
+        <div class="impact-bar"><div class="impact-fill" style="width: 60%;"></div></div>
+
+        <h3>Root Cause Analysis</h3>
+        <pre>No automated index maintenance was configured for any database on SQL-PROD-01:
+1. INC0012890: Statistics on Orders table were 45 days stale after a bulk migration added 2M rows. Queries switched from index seeks to table scans.
+2. INC0014102: Overnight batch processing caused 98% fragmentation on Inventory table. No post-batch maintenance was scheduled.
+
+The common root cause is the absence of a comprehensive database maintenance strategy including:
+- Nightly statistics updates
+- Weekly index rebuild/reorganize jobs
+- Post-bulk-operation maintenance triggers</pre>
+
+        <h3>Suggested Permanent Fix</h3>
+        <pre>1. [PARTIAL] Implement weekly index maintenance plan for ALL databases:
+   - OrderDB: DONE
+   - CustomerDB: DONE
+   - InventoryDB: PENDING (24/7 operations concern - needs online rebuild)
+   - AnalyticsDB: PENDING
+2. [RECOMMENDED] Use online index rebuilds (Enterprise Edition feature) for 24/7 databases.
+3. [RECOMMENDED] Implement adaptive statistics auto-update with larger sample sizes for high-volume tables.
+4. [RECOMMENDED] Add post-batch-job maintenance step to ETL processes.
+5. [RECOMMENDED] Set up automated fragmentation monitoring with alerts at 30% fragmentation.</pre>
+
+        <p style="color: #f59e0b; margin-top: 0.75rem; font-weight: 600;">STATUS: PARTIALLY RESOLVED (PRB0001150 still open). OrderDB and CustomerDB have maintenance plans. InventoryDB and AnalyticsDB still at risk.</p>
+    </div>
+
+    <div class="footer">
+        Generated by ITSM-Insights on 2025-04-15 14:30:00 | AI-powered ITSM ticket intelligence
+    </div>
+</div>
+</body>
+</html>

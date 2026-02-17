@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI History: SQL-PROD-01 - ITSM Insights</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            color: #2dd4bf;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #2dd4bf;
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            color: #2dd4bf;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        h3 {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2dd4bf;
+        }
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .summary-box {
+            background: #1e293b;
+            border: 1px solid #2dd4bf;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+        }
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .card-warning {
+            border-left: 4px solid #f59e0b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        th {
+            background: #334155;
+            color: #2dd4bf;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid #334155;
+        }
+        tr:hover { background: #1e293b; }
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-incident { background: #7f1d1d; color: #fca5a5; }
+        .badge-change { background: #1e3a5f; color: #93c5fd; }
+        .badge-problem { background: #713f12; color: #fde68a; }
+        .badge-request { background: #14532d; color: #86efac; }
+        .badge-open { background: #7f1d1d; color: #fca5a5; }
+        .badge-closed { background: #14532d; color: #86efac; }
+        .timeline {
+            border-left: 3px solid #2dd4bf;
+            margin: 1rem 0 1rem 1rem;
+            padding-left: 1.5rem;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.85rem;
+            top: 0.4rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2dd4bf;
+        }
+        .timeline-date {
+            color: #2dd4bf;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .timeline-content {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>CI History: SQL-PROD-01</h1>
+    <p class="subtitle">Ticket history analysis covering 20 tickets over 18 months</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">20</div>
+            <div class="stat-label">Total Tickets</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Incidents</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Changes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Problems</div>
+        </div>
+    </div>
+
+    <h2>AI Analysis Summary</h2>
+    <div class="summary-box"><strong>Executive Summary:</strong>
+SQL-PROD-01 is a production SQL Server 2019 instance hosting critical databases (OrderDB, CustomerDB, InventoryDB, AnalyticsDB). The server has had a turbulent 18 months, dominated by a recurring disk space crisis on the E: drive that culminated in a critical outage with data loss in February 2025. The most important thing to know: there is an open problem ticket (PRB0001150) for missing index maintenance that has only been partially addressed, and a high-priority DR project (AlwaysOn AG) is in progress.
+
+<strong>Timeline of Major Events:</strong>
+- Jul 2024: SQL Server service crash due to CU18 bug (INC0011567). CU22 hotfix applied via CHG0004801.
+- Aug 2024: First disk space incident on E: drive at 95% (INC0012301). Transaction logs cleaned up.
+- Sep 2024: Memory upgraded from 64GB to 128GB (CHG0005100). Query performance issue due to stale statistics (INC0012890).
+- Oct 2024: Network connectivity issue after firewall change (INC0013890). Quickly resolved.
+- Nov 2024: Second disk space incident, E: drive at 85% (INC0013457). Change request CHG0005502 filed to expand drive.
+- Dec 2024: Performance issue on InventoryDB from index fragmentation (INC0014102). Problem PRB0001150 opened.
+- Jan 2025: New AnalyticsDB created (CHG0006200).
+- Feb 2025: CRITICAL - E: drive hit 100%, databases went offline with data loss (INC0015234). CHG0005502 had been approved but never implemented. Emergency disk expansion. Problem PRB0001001 opened and resolved.
+- Mar 2025: SA account lockout from decommissioned server (INC0015890). Monthly patching overran (INC0016200). Patching completed (CHG0006450). AlwaysOn AG project started (RITM0019500).
+- Apr 2025: Annual capacity review in progress (RITM0022100).
+
+<strong>Recurring Themes:</strong>
+1. DISK SPACE (3 incidents, 1 problem, 1 change): The dominant pattern. E: drive filled up three times due to transaction log growth and TempDB expansion. A change request to expand the drive was delayed 3 months, directly causing the critical February outage. Now resolved with expanded storage and monitoring.
+2. PERFORMANCE / INDEX MAINTENANCE (2 incidents, 1 problem): Queries timing out due to stale statistics and fragmented indexes. Only partially addressed - some databases still lack automated maintenance.
+3. CHANGE EXECUTION DELAYS: CHG0005502 was approved in November but not implemented until March after a critical incident forced emergency action. Indicates a process gap in change execution tracking.
+
+<strong>Current State:</strong>
+- 3 open tickets: PRB0001150 (index maintenance - partially implemented), RITM0022100 (annual capacity review), RITM0019500 (AlwaysOn AG setup)
+- Disk situation stabilized after expansion to 1TB + additional F: drive
+- Server running SQL Server 2019 CU25 (current as of March 2025)
+- 128GB RAM, adequate for current workload
+
+<strong>Risk Assessment:</strong>
+1. HIGH: Index maintenance (PRB0001150) is only partially implemented. InventoryDB and AnalyticsDB lack automated maintenance and are at risk of the same performance degradation seen in INC0012890 and INC0014102.
+2. MEDIUM: AnalyticsDB growing at 15GB/month. At current rate, F: drive (500GB, 22% used) will need attention within 18 months.
+3. MEDIUM: No disaster recovery in place. The AlwaysOn AG project (RITM0019500) is critical. The February outage already caused data loss.
+4. LOW: SA account still used by 4 applications. Security risk until migration to service accounts is completed.</div>
+
+    <h2>Event Timeline</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-date">2024-07-03 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0011567</strong> - SQL Server service crashed, all databases unavailable</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-07-10 <span class="badge badge-change">Change Request</span></div>
+            <div class="timeline-content"><strong>CHG0004801</strong> - Apply SQL Server 2019 CU22 hotfix</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-08-15 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0012301</strong> - Disk space critical on E: drive (95% full)</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-09-01 <span class="badge badge-change">Change Request</span></div>
+            <div class="timeline-content"><strong>CHG0005100</strong> - Increase server memory from 64GB to 128GB</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-09-20 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0012890</strong> - Slow query performance affecting OrderApp</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-10-15 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0013890</strong> - Cannot connect from AppServer-05</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-11-02 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0013457</strong> - Disk space warning on E: drive (85% full)</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-11-05 <span class="badge badge-change">Change Request</span></div>
+            <div class="timeline-content"><strong>CHG0005502</strong> - Expand E: drive from 500GB to 1TB</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-12-05 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0014102</strong> - Queries timing out on InventoryDB</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2024-12-10 <span class="badge badge-problem">Problem</span></div>
+            <div class="timeline-content"><strong>PRB0001150</strong> - Performance degradation due to missing index maintenance</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-01-08 <span class="badge badge-change">Change Request</span></div>
+            <div class="timeline-content"><strong>CHG0006200</strong> - Create new AnalyticsDB database</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-02-10 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0015234</strong> - E: drive full, databases going offline</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-02-11 <span class="badge badge-problem">Problem</span></div>
+            <div class="timeline-content"><strong>PRB0001001</strong> - Recurring disk space issues on E: drive</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-03-10 <span class="badge badge-change">Change Request</span></div>
+            <div class="timeline-content"><strong>CHG0006450</strong> - Monthly Windows and SQL patching - March 2025</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-03-22 <span class="badge badge-incident">Incident</span></div>
+            <div class="timeline-content"><strong>INC0015890</strong> - SA account locked out, applications failing</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">2025-03-25 <span class="badge badge-request">Service Request</span></div>
+            <div class="timeline-content"><strong>RITM0019500</strong> - Setup AlwaysOn Availability Group for disaster recovery</div>
+        </div>
+    </div>
+
+    <h2>Open Items</h2>
+    <div class="card card-warning">
+        <table>
+            <tr><th>Number</th><th>Description</th><th>Priority</th><th>Assigned To</th></tr>
+            <tr><td>PRB0001150</td><td>Performance degradation due to missing index maintenance</td><td>2 - High</td><td>Mike Chen</td></tr>
+            <tr><td>RITM0022100</td><td>Annual server review and capacity planning</td><td>4 - Low</td><td>Sarah Williams</td></tr>
+            <tr><td>RITM0019500</td><td>Setup AlwaysOn Availability Group for disaster recovery</td><td>2 - High</td><td>Mike Chen</td></tr>
+        </table>
+    </div>
+
+    <h2>All Tickets</h2>
+    <table>
+        <tr><th>Number</th><th>Type</th><th>Description</th><th>State</th><th>Priority</th><th>Opened</th></tr>
+        <tr><td>INC0011567</td><td><span class="badge badge-incident">Incident</span></td><td>SQL Server service crashed, all databases unavailable</td><td><span class="badge badge-closed">Closed</span></td><td>1 - Critical</td><td>2024-07-03</td></tr>
+        <tr><td>CHG0004801</td><td><span class="badge badge-change">Change Request</span></td><td>Apply SQL Server 2019 CU22 hotfix</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2024-07-10</td></tr>
+        <tr><td>INC0012301</td><td><span class="badge badge-incident">Incident</span></td><td>Disk space critical on E: drive (95% full)</td><td><span class="badge badge-closed">Closed</span></td><td>1 - Critical</td><td>2024-08-15</td></tr>
+        <tr><td>CHG0005100</td><td><span class="badge badge-change">Change Request</span></td><td>Increase server memory from 64GB to 128GB</td><td><span class="badge badge-closed">Closed</span></td><td>3 - Moderate</td><td>2024-09-01</td></tr>
+        <tr><td>INC0012890</td><td><span class="badge badge-incident">Incident</span></td><td>Slow query performance affecting OrderApp</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2024-09-20</td></tr>
+        <tr><td>INC0013890</td><td><span class="badge badge-incident">Incident</span></td><td>Cannot connect from AppServer-05</td><td><span class="badge badge-closed">Closed</span></td><td>3 - Moderate</td><td>2024-10-15</td></tr>
+        <tr><td>INC0013457</td><td><span class="badge badge-incident">Incident</span></td><td>Disk space warning on E: drive (85% full)</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2024-11-02</td></tr>
+        <tr><td>CHG0005502</td><td><span class="badge badge-change">Change Request</span></td><td>Expand E: drive from 500GB to 1TB</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2024-11-05</td></tr>
+        <tr><td>INC0014102</td><td><span class="badge badge-incident">Incident</span></td><td>Queries timing out on InventoryDB</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2024-12-05</td></tr>
+        <tr><td>PRB0001150</td><td><span class="badge badge-problem">Problem</span></td><td>Performance degradation due to missing index maintenance</td><td><span class="badge badge-open">Open</span></td><td>2 - High</td><td>2024-12-10</td></tr>
+        <tr><td>CHG0006200</td><td><span class="badge badge-change">Change Request</span></td><td>Create new AnalyticsDB database</td><td><span class="badge badge-closed">Closed</span></td><td>3 - Moderate</td><td>2025-01-08</td></tr>
+        <tr><td>RITM0020001</td><td><span class="badge badge-request">Service Request</span></td><td>Grant db_datareader access to AnalyticsDB for BI team</td><td><span class="badge badge-closed">Closed</span></td><td>4 - Low</td><td>2025-01-20</td></tr>
+        <tr><td>RITM0021500</td><td><span class="badge badge-request">Service Request</span></td><td>Request for scheduled maintenance window documentation</td><td><span class="badge badge-closed">Closed</span></td><td>4 - Low</td><td>2025-02-01</td></tr>
+        <tr><td>INC0015234</td><td><span class="badge badge-incident">Incident</span></td><td>E: drive full, databases going offline</td><td><span class="badge badge-closed">Closed</span></td><td>1 - Critical</td><td>2025-02-10</td></tr>
+        <tr><td>PRB0001001</td><td><span class="badge badge-problem">Problem</span></td><td>Recurring disk space issues on E: drive</td><td><span class="badge badge-closed">Closed</span></td><td>1 - Critical</td><td>2025-02-11</td></tr>
+        <tr><td>CHG0006450</td><td><span class="badge badge-change">Change Request</span></td><td>Monthly Windows and SQL patching - March 2025</td><td><span class="badge badge-closed">Closed</span></td><td>3 - Moderate</td><td>2025-03-10</td></tr>
+        <tr><td>INC0016200</td><td><span class="badge badge-incident">Incident</span></td><td>Scheduled maintenance overran, applications delayed</td><td><span class="badge badge-closed">Closed</span></td><td>3 - Moderate</td><td>2025-03-16</td></tr>
+        <tr><td>INC0015890</td><td><span class="badge badge-incident">Incident</span></td><td>SA account locked out, applications failing</td><td><span class="badge badge-closed">Closed</span></td><td>2 - High</td><td>2025-03-22</td></tr>
+        <tr><td>RITM0019500</td><td><span class="badge badge-request">Service Request</span></td><td>Setup AlwaysOn Availability Group for disaster recovery</td><td><span class="badge badge-open">Open</span></td><td>2 - High</td><td>2025-03-25</td></tr>
+        <tr><td>RITM0022100</td><td><span class="badge badge-request">Service Request</span></td><td>Annual server review and capacity planning</td><td><span class="badge badge-open">Open</span></td><td>4 - Low</td><td>2025-04-01</td></tr>
+    </table>
+
+    <div class="footer">
+        Generated by ITSM-Insights on 2025-04-15 14:30:00 | AI-powered ITSM ticket intelligence
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+You are a knowledge management analyst. Compare the following ticket data with the existing knowledge base articles.
+
+Identify:
+1. **Missing Articles**: Common ticket types that have no KB article. For each, suggest a title and outline.
+2. **Stale Articles**: KB articles that contradict recent ticket resolutions (the KB says one thing but tickets show a different fix).
+3. **Incomplete Articles**: KB articles that exist but miss steps that agents repeatedly add in ticket work notes.
+
+For each gap, provide:
+- Gap Type: Missing, Stale, or Incomplete
+- Topic
+- Related Ticket Numbers
+- Suggested Article Title
+- Suggested Article Content (brief outline, 5-10 bullet points of what the KB should contain)
+
+TICKET DATA:
+{ticket_data}
+
+EXISTING KB ARTICLES:
+{kb_articles}

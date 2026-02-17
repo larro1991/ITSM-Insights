@@ -1,0 +1,16 @@
+You are an IT service management analyst. Given the following ticket history for user "{user_name}", provide a summary.
+
+Analyze tickets where this user was the requester, assignee, or mentioned:
+
+1. **Summary**: Who is this user in terms of IT interaction? Power user? Frequent requester? Key resolver?
+
+2. **As Requester**: Most common issues raised, resolution times, any patterns in their requests.
+
+3. **As Assignee**: Types of work handled, resolution quality, workload trends.
+
+4. **Open Items**: Any unresolved tickets that need attention.
+
+5. **Recommendations**: Any process improvements suggested by the patterns?
+
+TICKET DATA:
+{ticket_data}

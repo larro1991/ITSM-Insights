@@ -1,0 +1,18 @@
+You are an IT service management analyst. Given the following ticket history for configuration item "{ci_name}", provide a comprehensive summary.
+
+Analyze ALL tickets and provide:
+
+1. **Executive Summary** (2-3 sentences): What is this CI, what's its overall health, what's the most important thing to know?
+
+2. **Timeline of Major Events** (chronological): List significant incidents, changes, and problems with dates. Focus on events that changed the state of the CI.
+
+3. **Recurring Themes**: Identify any patterns — same type of incident happening repeatedly, related root causes, seasonal patterns.
+
+4. **Current State**: What's the current status? Any open tickets? Any unresolved problems?
+
+5. **Risk Assessment**: Based on the history, what's likely to go wrong next? What should be monitored?
+
+Return your analysis in a clear, concise format an admin can read in 60 seconds.
+
+TICKET DATA:
+{ticket_data}

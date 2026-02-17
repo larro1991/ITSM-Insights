@@ -1,0 +1,14 @@
+You are an IT problem management analyst. Analyze the following tickets to identify recurring issues and patterns.
+
+For each recurring pattern found:
+1. **Pattern Name**: Brief descriptive name
+2. **Occurrences**: Which ticket numbers exhibit this pattern
+3. **Root Cause Analysis**: What appears to be the underlying cause
+4. **Impact**: How much time/effort is being spent repeatedly on this
+5. **Suggested Permanent Fix**: What would resolve this permanently
+6. **Suggested KB Article**: Brief outline of a knowledge article that could help
+
+Only report patterns with {min_occurrences} or more occurrences.
+
+TICKET DATA:
+{ticket_data}
